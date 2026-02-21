@@ -105,17 +105,18 @@ import Base from '../layouts/Base.astro';
 
   <div class="product">
     <h3>second-desk</h3>
+    <p class="product-tagline">Second desk for web browsing.</p>
     <p>
       Your AI agent needs a browser constantly &mdash; research, form filling, scraping,
       testing. That eats your RAM and steals your focus. Second-desk routes all browser
-      tasks to another machine sitting next to you. Your coding laptop stays fast and quiet.
-      The second machine handles Chrome. You see results in your terminal. No context switching,
-      no extra keyboard juggling. Works with any machine: an old laptop, a Raspberry Pi,
-      or a cloud VM.
+      tasks to another machine over the internet. Run <code>serve</code> on Machine B,
+      get a pairing code, <code>connect</code> from Machine A. Your coding laptop stays
+      fast and quiet. The second machine handles Chrome. Works with any machine: an old
+      laptop, a Raspberry Pi, or a cloud VM.
     </p>
     <div class="product-actions">
-      <div class="install-cmd" onclick="copyCmd(this)">npx second-desk connect user@other-machine</div>
-      <a href="https://github.com/Chill-AI-Space">GitHub</a>
+      <div class="install-cmd" onclick="copyCmd(this)">npx second-desk serve</div>
+      <a href="https://github.com/kobzevvv/second-desk">GitHub</a>
     </div>
   </div>
 </section>

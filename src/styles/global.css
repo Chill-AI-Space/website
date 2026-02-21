@@ -177,6 +177,12 @@ p {
   font-size: 0.95rem;
 }
 
+.product .product-tagline {
+  color: var(--text);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
 .product-actions {
   display: flex;
   align-items: center;
