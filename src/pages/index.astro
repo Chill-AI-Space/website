@@ -24,9 +24,11 @@ import Base from '../layouts/Base.astro';
       Catches prompt injection, credential exfiltration, and suspicious file access.
       You get a detailed report you can actually read.
     </p>
-    <p style="margin-top: 8px;">
+    <div class="product-actions">
+      <div class="install-cmd" onclick="copyCmd(this)">npx safe-space scan</div>
+      <a href="/reports/safe-space-example.html">see example report</a>
       <a href="https://github.com/Chill-AI-Space/safe-space">GitHub</a>
-    </p>
+    </div>
   </div>
 
   <div class="product">
@@ -38,9 +40,10 @@ import Base from '../layouts/Base.astro';
       Less context switching, more genuine connection.
       Everyone around you gets faster, warmer replies &mdash; and you barely lifted a finger.
     </p>
-    <p style="margin-top: 8px;">
-      <span class="tag">coming soon</span>
-    </p>
+    <div class="product-actions">
+      <div class="install-cmd" onclick="copyCmd(this)">npx active-listening init</div>
+      <a href="https://github.com/Chill-AI-Space">GitHub</a>
+    </div>
   </div>
 
   <div class="product">
@@ -51,9 +54,10 @@ import Base from '../layouts/Base.astro';
       your AI agent browses on one computer while you work undisturbed on another.
       Built on Playwright and Chrome DevTools Protocol.
     </p>
-    <p style="margin-top: 8px;">
+    <div class="product-actions">
+      <div class="install-cmd" onclick="copyCmd(this)">npx multi-playwright setup</div>
       <a href="https://github.com/Chill-AI-Space/multi-playwright">GitHub</a>
-    </p>
+    </div>
   </div>
 
   <div class="product">
@@ -64,9 +68,10 @@ import Base from '../layouts/Base.astro';
       that no parser or crawler ever could. Feed that data to your AI agent
       and actually get useful answers about real content behind login walls.
     </p>
-    <p style="margin-top: 8px;">
+    <div class="product-actions">
+      <div class="install-cmd" onclick="copyCmd(this)">npx behalf install</div>
       <a href="https://github.com/Chill-AI-Space/behalf-chrome-extension">GitHub</a>
-    </p>
+    </div>
   </div>
 
   <div class="product">
@@ -77,9 +82,11 @@ import Base from '../layouts/Base.astro';
       or point your own. Every vibe coder gets a personal page.
       Think of it as your portfolio that builds itself while you code.
     </p>
-    <p style="margin-top: 8px;">
-      <span class="tag">coming soon</span>
-    </p>
+    <div class="product-actions">
+      <div class="install-cmd" onclick="copyCmd(this)">npx instant-publish deploy ./my-doc.html</div>
+      <a href="/reports/death-to-pdf.html">see example report</a>
+      <a href="https://github.com/Chill-AI-Space">GitHub</a>
+    </div>
   </div>
 
   <div class="product">
@@ -90,9 +97,10 @@ import Base from '../layouts/Base.astro';
       browser tasks to the right machine. When your AI agent finishes a step,
       auto-pilot moves to the next one &mdash; so you can go grab a coffee.
     </p>
-    <p style="margin-top: 8px;">
+    <div class="product-actions">
+      <div class="install-cmd" onclick="copyCmd(this)">npx auto-pilot start</div>
       <a href="https://github.com/Chill-AI-Space/claude-auto-submit">GitHub</a>
-    </p>
+    </div>
   </div>
 </section>
 
@@ -176,21 +184,20 @@ import Base from '../layouts/Base.astro';
 <section class="section">
   <h2>Get started</h2>
   <p>
-    Copy this prompt, paste it into Claude Code (or any AI assistant),
-    and it will figure out what you need and set everything up for you.
+    Copy this prompt, paste it into your AI coding assistant,
+    and let it handle the rest. It already knows your OS, your tools, your setup.
+    Just tell it what you want.
   </p>
 
   <div class="prompt-box" id="setup-prompt">
-    <button class="copy-btn" onclick="copyPrompt()">copy</button>I want to set up Chill.ai tools for my vibe coding workflow.
+    <button class="copy-btn" onclick="copyPrompt()">copy</button>Hey, I just found Chill.ai and I want to try their tools.
+Check out https://github.com/Chill-AI-Space — they have
+security scanning, browser automation, a Chrome extension
+for scraping authenticated pages, and some other stuff.
 
-Here is what I have:
-- OS: [macOS / Windows / Linux]
-- AI coding tool: [Claude Code / Cursor / Windsurf / other]
-- What I care about: [security / productivity / all of the above]
-
-Please look at the tools available at https://github.com/Chill-AI-Space
-and help me choose which ones I need. Then walk me through installation
-step by step. Keep it chill.</div>
+Look at what I have on my machine and figure out which
+tools make sense for me. Then install them. If something
+needs config, set it up with sane defaults. Keep it chill.</div>
 </section>
 
 <script is:inline>
@@ -201,6 +208,17 @@ function copyPrompt() {
   const btn = document.querySelector('.copy-btn');
   btn.textContent = 'copied';
   setTimeout(() => btn.textContent = 'copy', 2000);
+}
+
+function copyCmd(el) {
+  navigator.clipboard.writeText(el.textContent.trim());
+  const original = el.textContent;
+  el.textContent = 'copied!';
+  el.classList.add('copied');
+  setTimeout(() => {
+    el.textContent = original;
+    el.classList.remove('copied');
+  }, 1500);
 }
 </script>
 
