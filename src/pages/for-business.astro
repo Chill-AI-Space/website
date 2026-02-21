@@ -1,0 +1,155 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="For Business" description="Security perimeter for teams that vibe-code. Audits, monitoring, and compliance reports.">
+
+<section class="hero">
+  <h1>For Business</h1>
+  <p class="subtitle">
+    Your team vibe-codes. That is great for speed.
+    But someone needs to make sure they are not shipping prompt injections
+    to production. That someone is us.
+  </p>
+</section>
+
+<section class="section">
+  <h2>The problem</h2>
+  <p>
+    AI-assisted coding is everywhere. Your developers use Claude, Copilot, Cursor,
+    or a dozen other tools to write code faster than ever.
+    That is genuinely wonderful &mdash; until it is not.
+  </p>
+  <p>
+    AI agents can be tricked into executing malicious commands.
+    They can accidentally expose credentials. They can write code
+    that looks correct but contains subtle vulnerabilities.
+    Traditional security tools were not built for this. They scan code
+    after it is written. By then, the damage is done.
+  </p>
+
+  <h2>What we do</h2>
+  <p>
+    We create a security perimeter around your vibe coders.
+    Not the kind that slows them down &mdash; the kind they barely notice.
+  </p>
+
+  <h3>Real-time protection</h3>
+  <p>
+    Safe Space hooks into AI coding agents and intercepts dangerous commands
+    <em>before</em> they execute. If an AI agent tries to read your
+    <code>.env</code> file and pipe it somewhere, we block it. Instantly.
+    Your developer keeps coding. They might not even notice it happened
+    (but you will, because it is in the report).
+  </p>
+
+  <h3>Session forensics</h3>
+  <p>
+    Every AI coding session generates logs. Nobody reads them.
+    We do. Our scanner analyzes session logs for signs of prompt injection,
+    credential access, unauthorized file modifications, and suspicious patterns.
+    You get a clear, readable report &mdash; not a wall of CVE numbers.
+  </p>
+
+  <h3>Compliance dashboard</h3>
+  <p>
+    Your security team (or your boss, or your auditor) gets a dashboard showing
+    which developers have Safe Space installed, what threats were detected,
+    and what was blocked. Green means good. Red means someone has a conversation
+    to have.
+  </p>
+  <p>
+    <span class="tag">coming soon</span>
+  </p>
+
+  <h3>Zero-friction deployment</h3>
+  <p>
+    Your developers install Safe Space with a single command. It hooks into their
+    existing AI coding tools automatically. No configuration files. No training sessions.
+    No "security awareness workshops" that everyone hates.
+    They install it, forget about it, and keep vibing.
+  </p>
+</section>
+
+<hr />
+
+<section class="section">
+  <h2>Pricing</h2>
+
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <h3>Individual</h3>
+      <div class="price">Free</div>
+      <p>For solo vibe coders who want peace of mind.</p>
+      <ul>
+        <li>All scanning features</li>
+        <li>Real-time hook guard</li>
+        <li>Session log analysis</li>
+        <li>HTML reports</li>
+        <li>Community support</li>
+      </ul>
+    </div>
+
+    <div class="pricing-card">
+      <h3>Team</h3>
+      <div class="price">$9 <span>/ seat / month</span></div>
+      <p>For teams that want visibility without bureaucracy.</p>
+      <ul>
+        <li>Everything in Individual</li>
+        <li>Team dashboard</li>
+        <li>Centralized reporting</li>
+        <li>Slack notifications</li>
+        <li>Priority support</li>
+      </ul>
+    </div>
+
+    <div class="pricing-card">
+      <h3>Enterprise</h3>
+      <div class="price">Let's talk</div>
+      <p>For organizations with compliance requirements.</p>
+      <ul>
+        <li>Everything in Team</li>
+        <li>Custom policy rules</li>
+        <li>SSO integration</li>
+        <li>Audit trail export</li>
+        <li>Dedicated support</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<hr />
+
+<section class="section">
+  <h2>Get started</h2>
+  <p>
+    Install Safe Space on one machine. See what it catches.
+    Then decide if your whole team needs it.
+    No sales calls required.
+  </p>
+
+  <div class="prompt-box" id="biz-prompt">
+    <button class="copy-btn" onclick="copyPrompt()">copy</button>I want to evaluate Chill.ai Safe Space for my team.
+
+Our setup:
+- Team size: [number] developers
+- AI tools we use: [Claude Code / Cursor / Copilot / other]
+- OS mix: [macOS / Windows / Linux]
+- Main concern: [security compliance / credential protection / all of the above]
+
+Please help me plan a pilot deployment. Walk me through
+installing Safe Space on my machine first, then outline
+how to roll it out to the team. Keep it simple.</div>
+</section>
+
+<script is:inline>
+function copyPrompt() {
+  const el = event.target.closest('.prompt-box');
+  const text = el.textContent.replace('copy', '').trim();
+  navigator.clipboard.writeText(text);
+  const btn = el.querySelector('.copy-btn');
+  btn.textContent = 'copied';
+  setTimeout(() => btn.textContent = 'copy', 2000);
+}
+</script>
+
+</Base>

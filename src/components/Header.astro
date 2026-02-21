@@ -1,0 +1,13 @@
+---
+const pathname = Astro.url.pathname;
+---
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="logo">chill.ai</a>
+    <nav>
+      <a href="/about" class:list={[{ active: pathname === '/about' || pathname === '/about/' }]}>About</a>
+      <a href="/for-business" class:list={[{ active: pathname === '/for-business' || pathname === '/for-business/' }]}>For Business</a>
+      <a href="https://github.com/Chill-AI-Space" target="_blank">GitHub</a>
+    </nav>
+  </div>
+</header>

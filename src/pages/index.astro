@@ -1,0 +1,207 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Home" description="Your safe space for vibe coding. Security, automation, and publishing tools for AI-assisted developers.">
+
+<section class="hero">
+  <h1>Your safe space for vibe coding</h1>
+  <p class="subtitle">
+    You vibe, we watch your back. Security scanning, browser automation,
+    multi-channel messaging, and instant publishing &mdash; all the tools
+    a relaxed coder needs. Free and open source.
+  </p>
+</section>
+
+<section class="section">
+  <h2>What we make</h2>
+
+  <div class="product">
+    <h3>safe-space</h3>
+    <p>
+      Security guardrails for AI coding agents. Three layers of protection: a real-time
+      hook guard that blocks dangerous commands before they execute, a log scanner that
+      audits your sessions for vulnerabilities, and a cloud scanner for an external perspective.
+      Catches prompt injection, credential exfiltration, and suspicious file access.
+      You get a detailed report you can actually read.
+    </p>
+    <p style="margin-top: 8px;">
+      <a href="https://github.com/Chill-AI-Space/safe-space">GitHub</a>
+    </p>
+  </div>
+
+  <div class="product">
+    <h3>active-listening</h3>
+    <p>
+      Aggregates incoming messages from Email, Telegram, WhatsApp, and LinkedIn
+      into one stream. Your AI assistant reads the context, drafts a thoughtful response,
+      and waits for your approval. You review, maybe tweak a word, hit send.
+      Less context switching, more genuine connection.
+      Everyone around you gets faster, warmer replies &mdash; and you barely lifted a finger.
+    </p>
+    <p style="margin-top: 8px;">
+      <span class="tag">coming soon</span>
+    </p>
+  </div>
+
+  <div class="product">
+    <h3>multi-session-browser</h3>
+    <p>
+      Run multiple isolated browser sessions at once, each tied to a specific project
+      and Google account. No more logging in and out. Works across machines too &mdash;
+      your AI agent browses on one computer while you work undisturbed on another.
+      Built on Playwright and Chrome DevTools Protocol.
+    </p>
+    <p style="margin-top: 8px;">
+      <a href="https://github.com/Chill-AI-Space/multi-playwright">GitHub</a>
+    </p>
+  </div>
+
+  <div class="product">
+    <h3>behalf</h3>
+    <p>
+      A Chrome extension that extracts content from sites with heavy authentication
+      and anti-scraping protection. When you are logged in, Behalf can reach pages
+      that no parser or crawler ever could. Feed that data to your AI agent
+      and actually get useful answers about real content behind login walls.
+    </p>
+    <p style="margin-top: 8px;">
+      <a href="https://github.com/Chill-AI-Space/behalf-chrome-extension">GitHub</a>
+    </p>
+  </div>
+
+  <div class="product">
+    <h3>instant-publish</h3>
+    <p>
+      Turn any document into a shareable link. Your AI generates clean HTML &mdash;
+      way faster than wrestling with PDFs or Word docs. Publish on our domain
+      or point your own. Every vibe coder gets a personal page.
+      Think of it as your portfolio that builds itself while you code.
+    </p>
+    <p style="margin-top: 8px;">
+      <span class="tag">coming soon</span>
+    </p>
+  </div>
+
+  <div class="product">
+    <h3>auto-pilot</h3>
+    <p>
+      Keeps your Claude Code sessions running autonomously. Tracks session state
+      across projects, coordinates handoffs between sessions, and delegates
+      browser tasks to the right machine. When your AI agent finishes a step,
+      auto-pilot moves to the next one &mdash; so you can go grab a coffee.
+    </p>
+    <p style="margin-top: 8px;">
+      <a href="https://github.com/Chill-AI-Space/claude-auto-submit">GitHub</a>
+    </p>
+  </div>
+</section>
+
+<hr />
+
+<section class="section">
+  <h2>How it compares</h2>
+  <table class="comparison-table">
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th>Chill.ai</th>
+        <th>Snyk</th>
+        <th>SonarQube</th>
+        <th>DIY scripts</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>AI agent security hooks</td>
+        <td class="check">yes</td>
+        <td class="cross">no</td>
+        <td class="cross">no</td>
+        <td class="cross">no</td>
+      </tr>
+      <tr>
+        <td>Prompt injection detection</td>
+        <td class="check">yes</td>
+        <td class="cross">no</td>
+        <td class="cross">no</td>
+        <td class="cross">no</td>
+      </tr>
+      <tr>
+        <td>Real-time command blocking</td>
+        <td class="check">yes</td>
+        <td class="cross">no</td>
+        <td class="cross">no</td>
+        <td>maybe</td>
+      </tr>
+      <tr>
+        <td>Session log forensics</td>
+        <td class="check">yes</td>
+        <td class="cross">no</td>
+        <td class="cross">no</td>
+        <td class="cross">no</td>
+      </tr>
+      <tr>
+        <td>Multi-channel messaging</td>
+        <td class="check">yes</td>
+        <td class="cross">no</td>
+        <td class="cross">no</td>
+        <td class="cross">no</td>
+      </tr>
+      <tr>
+        <td>Browser automation</td>
+        <td class="check">yes</td>
+        <td class="cross">no</td>
+        <td class="cross">no</td>
+        <td class="cross">no</td>
+      </tr>
+      <tr>
+        <td>Free &amp; open source</td>
+        <td class="check">yes</td>
+        <td>freemium</td>
+        <td>partial</td>
+        <td class="check">yes</td>
+      </tr>
+      <tr>
+        <td>Setup time</td>
+        <td>2 min</td>
+        <td>30 min</td>
+        <td>1 hour+</td>
+        <td>forever</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<hr />
+
+<section class="section">
+  <h2>Get started</h2>
+  <p>
+    Copy this prompt, paste it into Claude Code (or any AI assistant),
+    and it will figure out what you need and set everything up for you.
+  </p>
+
+  <div class="prompt-box" id="setup-prompt">
+    <button class="copy-btn" onclick="copyPrompt()">copy</button>I want to set up Chill.ai tools for my vibe coding workflow.
+
+Here is what I have:
+- OS: [macOS / Windows / Linux]
+- AI coding tool: [Claude Code / Cursor / Windsurf / other]
+- What I care about: [security / productivity / all of the above]
+
+Please look at the tools available at https://github.com/Chill-AI-Space
+and help me choose which ones I need. Then walk me through installation
+step by step. Keep it chill.</div>
+</section>
+
+<script is:inline>
+function copyPrompt() {
+  const text = document.getElementById('setup-prompt').textContent
+    .replace('copy', '').trim();
+  navigator.clipboard.writeText(text);
+  const btn = document.querySelector('.copy-btn');
+  btn.textContent = 'copied';
+  setTimeout(() => btn.textContent = 'copy', 2000);
+}
+</script>
+
+</Base>
