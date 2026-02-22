@@ -11,11 +11,21 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     return new Response("Page not found", { status: 404 });
   }
 
-  const html = await object.text();
+  let html = await object.text();
+
+  // Inject noindex so search engines don't index user-published pages
+  if (html.includes("<head>")) {
+    html = html.replace(
+      "<head>",
+      '<head>\n  <meta name="robots" content="noindex, nofollow" />'
+    );
+  }
+
   return new Response(html, {
     headers: {
       "Content-Type": "text/html; charset=utf-8",
       "Cache-Control": "public, max-age=300",
+      "X-Robots-Tag": "noindex, nofollow",
     },
   });
 };
