@@ -1,0 +1,10 @@
+name = "chillai-website"
+pages_build_output_dir = "./dist"
+
+[[kv_namespaces]]
+binding = "PAGES_META"
+id = "445395ed5c4048ffa2b7e1e152e0f016"
+
+[[r2_buckets]]
+binding = "PAGES_BUCKET"
+bucket_name = "instant-publish"
