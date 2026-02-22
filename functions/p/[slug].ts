@@ -3,8 +3,8 @@ interface Env {
   PAGES_META: KVNamespace;
 }
 
-// Minimal chain-link favicon — neutral, like a shared doc icon
-const FAVICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M13.5 18.5l5-5m-2.5-2l2.1-2.1a3.54 3.54 0 0 1 5 5L21 16.5m-10 0l-2.1 2.1a3.54 3.54 0 0 0 5 5L16 21.5" fill="none" stroke="%23999" stroke-width="2.5" stroke-linecap="round"/></svg>`;
+// Minimal chain-link favicon — neutral, like a shared doc icon (base64-encoded SVG)
+const FAVICON_B64 = "PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHBhdGggZD0iTTEzLjUgMTguNWw1LTVtLTIuNS0ybDIuMS0yLjFhMy41NCAzLjU0IDAgMCAxIDUgNUwyMSAxNi41bS0xMCAwbC0yLjEgMi4xYTMuNTQgMy41NCAwIDAgMCA1IDVMMTYgMjEuNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOTk5IiBzdHJva2Utd2lkdGg9IjIuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+";
 
 export const onRequest: PagesFunction<Env> = async (context) => {
   const slug = context.params.slug as string;
@@ -20,7 +20,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   if (html.includes("<head>")) {
     html = html.replace(
       "<head>",
-      `<head>\n  <meta name="robots" content="noindex, nofollow" />\n  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,${FAVICON_SVG}" />`
+      `<head>\n  <meta name="robots" content="noindex, nofollow" />\n  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,${FAVICON_B64}" />`
     );
   }
 
