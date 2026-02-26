@@ -77,13 +77,14 @@ import Base from '../layouts/Base.astro';
   <div class="product">
     <h3>instant-publish</h3>
     <p>
-      Turn any document into a shareable link. Your AI generates clean HTML &mdash;
-      way faster than wrestling with PDFs or Word docs. Publish on our domain
-      or point your own. Every vibe coder gets a personal page.
-      Think of it as your portfolio that builds itself while you code.
+      Turn any document into a shareable link &mdash; private by default.
+      Your AI generates clean HTML, you deploy with one command, and every page
+      gets a unique password automatically. No sign-ups, no accounts &mdash;
+      just a link with <code>?password=</code> that you share with the right people.
+      Way faster than wrestling with PDFs or Google Docs permissions.
     </p>
     <div class="product-actions">
-      <div class="install-cmd" onclick="copyCmd(this)">npx instant-publish deploy ./my-doc.html</div>
+      <div class="install-cmd" onclick="copyCmd(this)">npx instant-publish deploy ./my-doc.html --slug my-report</div>
       <a href="/p/death-to-pdf">see example report</a>
       <a href="https://github.com/Chill-AI-Space/instant-publish">GitHub</a>
     </div>
