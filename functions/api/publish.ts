@@ -58,6 +58,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
       slug?: string;
       content: string;
       title?: string;
+      password?: string;
     }>();
 
     if (!body.content) {
@@ -74,12 +75,17 @@ export const onRequest: PagesFunction<Env> = async (context) => {
       httpMetadata: { contentType: "text/html" },
     });
 
-    const metadata = {
+    const metadata: Record<string, string> = {
       slug,
       title: body.title || slug,
       created: new Date().toISOString(),
       owner: ownerHash,
     };
+
+    if (body.password) {
+      metadata.passwordHash = await hashKey(body.password);
+    }
+
     await env.PAGES_META.put(`page:${slug}`, JSON.stringify(metadata));
 
     return Response.json(
