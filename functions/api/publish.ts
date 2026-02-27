@@ -59,7 +59,6 @@ export const onRequest: PagesFunction<Env> = async (context) => {
       content: string;
       title?: string;
       password?: string;
-      forceNewPassword?: boolean;
     }>();
 
     if (!body.content) {
@@ -77,7 +76,6 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     });
 
     const existingMeta = await env.PAGES_META.get(`page:${slug}`);
-    let passwordPreserved = false;
 
     const metadata: Record<string, string> = {
       slug,
@@ -86,17 +84,20 @@ export const onRequest: PagesFunction<Env> = async (context) => {
       owner: ownerHash,
     };
 
-    if (existingMeta && !body.forceNewPassword) {
+    if (existingMeta) {
       const existing = JSON.parse(existingMeta);
-      if (existing.passwordHash) {
-        metadata.passwordHash = existing.passwordHash;
-        passwordPreserved = true;
-      }
       if (existing.created) {
         metadata.created = existing.created;
       }
-    } else if (body.password) {
+    }
+
+    if (body.password) {
       metadata.passwordHash = await hashKey(body.password);
+    } else if (existingMeta) {
+      const existing = JSON.parse(existingMeta);
+      if (existing.passwordHash) {
+        metadata.passwordHash = existing.passwordHash;
+      }
     }
 
     await env.PAGES_META.put(`page:${slug}`, JSON.stringify(metadata));
@@ -106,7 +107,6 @@ export const onRequest: PagesFunction<Env> = async (context) => {
         url: `https://chillai.space/p/${slug}`,
         slug,
         created: metadata.created,
-        passwordPreserved,
       },
       {
         status: 201,
