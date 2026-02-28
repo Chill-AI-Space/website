@@ -53,6 +53,7 @@ interface PageMeta {
   created: string;
   owner: string;
   passwordHash?: string;
+  password?: string;
 }
 
 function portalPage(pages: PageMeta[]): Response {
@@ -61,7 +62,8 @@ function portalPage(pages: PageMeta[]): Response {
     .map((p) => {
       const date = p.created ? new Date(p.created).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) : "";
       const title = p.title || p.slug;
-      return `<a class="card" href="/p/${p.slug}" data-search="${(title + " " + p.slug).toLowerCase()}">
+      const href = p.password ? `/p/${p.slug}?password=` + encodeURIComponent(p.password) : `/p/${p.slug}`;
+      return `<a class="card" href="${href}" data-search="${(title + " " + p.slug).toLowerCase()}">
       <div class="card-title">${escapeHtml(title)}</div>
       <div class="card-meta"><code>${escapeHtml(p.slug)}</code><span>${date}</span></div>
     </a>`;

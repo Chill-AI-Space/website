@@ -93,10 +93,14 @@ export const onRequest: PagesFunction<Env> = async (context) => {
 
     if (body.password) {
       metadata.passwordHash = await hashKey(body.password);
+      metadata.password = body.password;
     } else if (existingMeta) {
       const existing = JSON.parse(existingMeta);
       if (existing.passwordHash) {
         metadata.passwordHash = existing.passwordHash;
+      }
+      if (existing.password) {
+        metadata.password = existing.password;
       }
     }
 
