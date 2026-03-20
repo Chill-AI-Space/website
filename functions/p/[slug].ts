@@ -97,19 +97,99 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     }
   }
 
+  // Serve raw source for AI agents: ?raw or Accept: text/markdown / text/plain
+  const wantsRaw = url.searchParams.has("raw") ||
+    /text\/(markdown|plain)/.test(context.request.headers.get("Accept") || "");
+
+  if (wantsRaw) {
+    const srcObject = await context.env.PAGES_BUCKET.get(`pages/${slug}.src`);
+    if (srcObject) {
+      const contentType = srcObject.httpMetadata?.contentType || "text/plain";
+      return new Response(srcObject.body, {
+        headers: {
+          "Content-Type": `${contentType}; charset=utf-8`,
+          "Cache-Control": "public, max-age=300",
+          "X-Robots-Tag": "noindex, nofollow",
+        },
+      });
+    }
+    // No source stored — fall through to HTML
+  }
+
   const object = await context.env.PAGES_BUCKET.get(`pages/${slug}.html`);
   if (!object) {
     return new Response("Page not found", { status: 404 });
   }
 
   let html = await object.text();
+  const trimmed = html.trimStart();
+  const looksLikeHtml = trimmed.startsWith("<!") || trimmed.startsWith("<html") || trimmed.startsWith("<head") || trimmed.startsWith("<body");
 
-  // Inject noindex + favicon into <head>
-  if (html.includes("<head>")) {
-    html = html.replace(
-      "<head>",
-      `<head>\n  <meta name="robots" content="noindex, nofollow" />\n  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,${FAVICON_B64}" />`
-    );
+  if (!looksLikeHtml) {
+    // Content is raw text/markdown stored without HTML wrapper — render it client-side
+    const escaped = html.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    const title = metaStr ? JSON.parse(metaStr).title || slug : slug;
+    html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,${FAVICON_B64}" />
+  <title>${title}</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6; color: #1a1a1a; background: #fff;
+      max-width: 780px; margin: 0 auto; padding: 40px 24px;
+    }
+    h1 { font-size: 2em; margin: 1em 0 0.5em; font-weight: 700; border-bottom: 1px solid #e5e5e5; padding-bottom: 0.3em; }
+    h2 { font-size: 1.5em; margin: 1.2em 0 0.4em; font-weight: 600; border-bottom: 1px solid #eee; padding-bottom: 0.2em; }
+    h3 { font-size: 1.25em; margin: 1em 0 0.3em; font-weight: 600; }
+    h4, h5, h6 { font-size: 1em; margin: 1em 0 0.2em; font-weight: 600; }
+    p { margin: 0 0 1em; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    strong { font-weight: 600; }
+    code {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      background: #f4f4f4; padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.9em;
+    }
+    pre { background: #f6f8fa; border: 1px solid #e1e4e8; border-radius: 6px; padding: 16px; overflow-x: auto; margin: 0 0 1em; }
+    pre code { background: none; padding: 0; border-radius: 0; font-size: 0.85em; }
+    blockquote { border-left: 4px solid #dfe2e5; padding: 0 1em; color: #555; margin: 0 0 1em; }
+    ul, ol { padding-left: 2em; margin: 0 0 1em; }
+    li { margin: 0.25em 0; }
+    table { border-collapse: collapse; width: 100%; margin: 0 0 1em; }
+    th, td { border: 1px solid #dfe2e5; padding: 8px 12px; text-align: left; }
+    th { background: #f6f8fa; font-weight: 600; }
+    tr:nth-child(even) { background: #fafbfc; }
+    hr { border: none; border-top: 1px solid #e5e5e5; margin: 2em 0; }
+    img { max-width: 100%; height: auto; }
+    #src { display: none; }
+  </style>
+</head>
+<body>
+  <article id="out"></article>
+  <pre id="src">${escaped}</pre>
+  <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"><\/script>
+  <script>
+    var src = document.getElementById('src').textContent;
+    document.getElementById('out').innerHTML = typeof marked !== 'undefined' && marked.parse
+      ? marked.parse(src)
+      : '<pre>' + src.replace(/&/g,'&amp;').replace(/</g,'&lt;') + '</pre>';
+  </script>
+</body>
+</html>`;
+  } else {
+    // Inject noindex + favicon into <head>
+    if (html.includes("<head>")) {
+      html = html.replace(
+        "<head>",
+        `<head>\n  <meta name="robots" content="noindex, nofollow" />\n  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,${FAVICON_B64}" />`
+      );
+    }
   }
 
   return new Response(html, {

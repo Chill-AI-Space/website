@@ -57,6 +57,8 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     const body = await request.json<{
       slug?: string;
       content: string;
+      source?: string;
+      format?: string;
       title?: string;
       password?: string;
     }>();
@@ -75,6 +77,14 @@ export const onRequest: PagesFunction<Env> = async (context) => {
       httpMetadata: { contentType: "text/html" },
     });
 
+    // Store raw source (markdown/text) for direct AI access
+    if (body.source) {
+      const srcType = body.format === "markdown" ? "text/markdown" : "text/plain";
+      await env.PAGES_BUCKET.put(`pages/${slug}.src`, body.source, {
+        httpMetadata: { contentType: srcType },
+      });
+    }
+
     const existingMeta = await env.PAGES_META.get(`page:${slug}`);
 
     const metadata: Record<string, string> = {
@@ -83,6 +93,10 @@ export const onRequest: PagesFunction<Env> = async (context) => {
       created: new Date().toISOString(),
       owner: ownerHash,
     };
+
+    if (body.format) {
+      metadata.format = body.format;
+    }
 
     if (existingMeta) {
       const existing = JSON.parse(existingMeta);
@@ -136,6 +150,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     }
 
     await env.PAGES_BUCKET.delete(`pages/${body.slug}.html`);
+    await env.PAGES_BUCKET.delete(`pages/${body.slug}.src`);
     await env.PAGES_META.delete(`page:${body.slug}`);
 
     return Response.json(
